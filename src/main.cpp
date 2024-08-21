@@ -5,6 +5,7 @@
 #include <WiFi.h>           // Wifi制御用ライブラリ
 #include <Preferences.h>    // 不揮発静メモリ制御ライブラリ
 #include <time.h>           // 時刻制御用ライブラリ
+#include "config.h"         // 設定ファイル　Setting file.
 
 // NTP接続情報　NTP connection information.
 const char* NTPSRV          = "ntp.jst.mfeed.ad.jp";  // NTPサーバーアドレス NTP server address.
@@ -15,10 +16,6 @@ const int   DAYLIGHT_OFFSET = 0;                      // サマータイム設�
 RTC_TimeTypeDef RTC_TimeStruct;                    // RTC時刻　Times of Day.
 RTC_DateTypeDef RTC_DateStruct;                    // RTC日付  Date
 int SMIN = 0;
-
-// Wi-Fi設定
-const char* ssid     = "YOUR_SSID";     // あなたのWi-FiのSSIDに置き換えてください
-const char* password = "YOUR_PASSWORD"; // あなたのWi-Fiのパスワードに置き換えてください
 
 // 関数プロトタイプ宣言
 void time_sync(const char* ntpsrv, long gmt_offset, int daylight_offset);
@@ -140,23 +137,6 @@ void loop() {
     M5.update();                    // M5状態更新　M5 status update.
     Clock_screen_display();         // 時計表示　Clock display.
     delay(980);
-    if (WiFi.status() == WL_CONNECTED) {
-    //Wi-Fiからの切断
-    M5.Lcd.println("Disconnect from WiFi");
-    WiFi.disconnect();
-    // Wi-Fi接続の状況を監視（WiFi.statusがWL_DISCONNECTEDになるまで繰り返し
-    while (WiFi.status() !=WL_DISCONNECTED) {
-      delay(500);
-      M5.Lcd.print(".");
       }
 
-    // Wi-Fi切断結果をLCDへ出力
-    M5.Lcd.println("");
-    M5.Lcd.println("WiFi disconnected");
-      }
-}
 
-// put function definitions here:
-// int myFunction(int x, int y) {
-//   return x + y;
-// }

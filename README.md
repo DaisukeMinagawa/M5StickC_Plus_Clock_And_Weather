@@ -1,4 +1,4 @@
-# An Example code for M5StickC Plus which shows a clock And weather forcast
+# An example code for M5StickC Plus which shows a clock And weather forcast
 
 This is a sample to show a Clock and weather info in LCD of M5StickC Plus.
 
