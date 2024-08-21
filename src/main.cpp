@@ -83,20 +83,15 @@ void Clock_screen_display() {
 
   // 数字・文字表示部分 Number and character display part
   // 時刻表示   Time display
-  M5.Lcd.setCursor(40, 40, 7);                 //x,y,font 7:48ピクセル7セグ風フォント 7: 48 pixel 7-segment style font
+  M5.Lcd.setCursor(40, 10, 7);                 //x,y,font 7:48ピクセル7セグ風フォント 7: 48 pixel 7-segment style font
   M5.Lcd.setTextSize(1);
   M5.Lcd.printf("%02d:%02d", RTC_TimeStruct.Hours, RTC_TimeStruct.Minutes); // 時分を表示 Hours and minutes display
-
-  // 秒表示
-  M5.Lcd.setTextFont(2);                      // 1:Adafruit 8ピクセルASCIIフォント 1: Adafruit 8 pixel ASCII font
-  M5.Lcd.fillRect(180, 40, 190, 60, BLACK);
-  M5.Lcd.printf(":%02d\n", RTC_TimeStruct.Seconds); // 秒を表示 Seconds display
 
   // 日付表示
   M5.Lcd.setTextSize(2);                       // 文字サイズを2に設定 Set the character size to 2
   M5.Lcd.setTextColor(WHITE);                 //日付表示文字だけ白色の文字色にする Set the text color to white only for the date display text
-  M5.Lcd.setCursor(60, 90, 1);                //x,y,font 1:Adafruit 8ピクセルASCIIフォント 1: Adafruit 8 pixel ASCII font
-  M5.Lcd.printf("%04d.%02d.%02d %s\n", RTC_DateStruct.Year, RTC_DateStruct.Month, RTC_DateStruct.Date, _wd[RTC_DateStruct.WeekDay]); //曜日を表示
+  M5.Lcd.setCursor(30, 90, 1);                //x,y,font 1:Adafruit 8ピクセルASCIIフォント 1: Adafruit 8 pixel ASCII font
+  M5.Lcd.printf("%d.%02d.%02d %s\n", RTC_DateStruct.Year, RTC_DateStruct.Month, RTC_DateStruct.Date, _wd[RTC_DateStruct.WeekDay]); //曜日を表示
 
   SMIN = RTC_TimeStruct.Minutes;              //表示した「分」を保存 Save the displayed "minute"
 }
