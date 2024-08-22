@@ -41,7 +41,7 @@ void time_sync(const char* ntpsrv, long gmt_offset, int daylight_offset) {
     RTC_TimeTypeDef TimeStruct;                   // 時刻格納用の構造体を生成   Create a structure for storing time
     TimeStruct.Hours   = timeInfo.tm_hour;        // 時を格納 Get hours
     TimeStruct.Minutes = timeInfo.tm_min;         // 分を格納 Get minutes
-    TimeStruct.Seconds = timeInfo.tm_sec;         // 秒を格納  Get seconds
+    // TimeStruct.Seconds = timeInfo.tm_sec;         // 秒を格納  Get seconds
     M5.Rtc.SetTime(&TimeStruct);                  // 時刻の書き込み Write time
 
     RTC_DateTypeDef DateStruct;                   // 日付格納用の構造体を生成 Create a structure for storing dates
@@ -50,10 +50,11 @@ void time_sync(const char* ntpsrv, long gmt_offset, int daylight_offset) {
     DateStruct.Date = timeInfo.tm_mday;           // 日を格納 Get day
     DateStruct.Year = timeInfo.tm_year + 1900;    // 年を格納（1900年からの経過年を取得するので1900を足す） Get elapsed years from 1900
     M5.Rtc.SetDate(&DateStruct);                  // 日付を書き込み Write date
-
-    M5.Lcd.printf("RTC %04d-%02d-%02d %02d:%02d:%02d\n",    // LCDに表示 Show on LCD
+    M5.Lcd.fillScreen(BLACK);                     // LCDを黒で塗りつぶし Fill the LCD with black
+    M5.Lcd.printf("RTC %04d-%02d-%02d %02d:%02d\n",    // LCDに表示 Show on LCD
     DateStruct.Year, DateStruct.Month, DateStruct.Date,
-    TimeStruct.Hours, TimeStruct.Minutes, TimeStruct.Seconds);
+    TimeStruct.Hours, TimeStruct.Minutes);
+   
 
   }
   else {
@@ -73,7 +74,7 @@ void Clock_screen_display() {
 
   // 画面書き換え処理　Screen rewriting process.
   if (SMIN == RTC_TimeStruct.Minutes) {         // 分単位の変更がかかったかどうか確認 Check if there is a change in minutes.
-    M5.Lcd.fillRect(180, 40, 190, 60, BLACK);   // 「秒」だけが変わった場合、秒表示エリアだけ書き換え Rewrite only the display area of seconds.
+    M5.Lcd.fillRect(180, 20, 190, 60, BLACK);   // 「秒」だけが変わった場合、秒表示エリアだけ書き換え Rewrite only the display area of seconds.
   } else {
     M5.Lcd.fillScreen(BLACK);                   // 「分」が変わったら画面全体を書き換え Rewrite the entire screen when the "minute" changes.
   }
@@ -90,7 +91,7 @@ void Clock_screen_display() {
   // 日付表示
   M5.Lcd.setTextSize(2);                       // 文字サイズを2に設定 Set the character size to 2
   M5.Lcd.setTextColor(WHITE);                 //日付表示文字だけ白色の文字色にする Set the text color to white only for the date display text
-  M5.Lcd.setCursor(30, 90, 1);                //x,y,font 1:Adafruit 8ピクセルASCIIフォント 1: Adafruit 8 pixel ASCII font
+  M5.Lcd.setCursor(30, 70, 1);                //x,y,font 1:Adafruit 8ピクセルASCIIフォント 1: Adafruit 8 pixel ASCII font
   M5.Lcd.printf("%d.%02d.%02d %s\n", RTC_DateStruct.Year, RTC_DateStruct.Month, RTC_DateStruct.Date, _wd[RTC_DateStruct.WeekDay]); //曜日を表示
 
   SMIN = RTC_TimeStruct.Minutes;              //表示した「分」を保存 Save the displayed "minute"
